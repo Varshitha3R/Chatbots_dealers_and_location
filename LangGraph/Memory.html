@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Query Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #chat-box {
+            border: 1px solid #ccc;
+            padding: 20px;
+            height: 700px;
+            overflow-y: scroll;
+            background-color: #fafafa;
+            margin-bottom: 20px;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .user-msg {
+            background-color: #e0f7fa;
+            text-align: right;
+        }
+        .bot-msg {
+            background-color: #f1f1f1;
+        }
+        #user-input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+        #send-btn {
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #send-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Ask About Dealers</h1>
+
+    <div id="chat-box">
+        <!-- Chat messages will appear here -->
+    </div>
+
+    <div>
+        <input type="text" id="user-input" placeholder="Ask a question...">
+        <button id="send-btn">Send</button>
+    </div>
+</div>
+
+<script>
+    const sendBtn = document.getElementById('send-btn');
+    const userInput = document.getElementById('user-input');
+    const chatBox = document.getElementById('chat-box');
+    const sessionId = localStorage.getItem('session_id') || generateSessionId();
+
+    // Store session ID in local storage
+    if (!localStorage.getItem('session_id')) {
+        localStorage.setItem('session_id', sessionId);
+    }
+
+    // Generate a new session ID if needed
+    function generateSessionId() {
+        return 'session-' + Math.random().toString(36).substring(2, 15);
+    }
+
+    // Display messages in the chat box
+    function displayMessage(message, isUser = true) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message');
+        msgDiv.classList.add(isUser ? 'user-msg' : 'bot-msg');
+        // Use innerHTML to render HTML content (important for formatting like <b>, <li>, etc.)
+        msgDiv.innerHTML = message;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
+    }
+
+    // Handle sending a message
+    sendBtn.addEventListener('click', async function() {
+        const userQuery = userInput.value.trim();
+        if (userQuery) {
+            // Display user message
+            displayMessage(userQuery, true);
+
+            // Send the user query to the backend
+            try {
+                const response = await fetch('http://192.168.92.144:5000/var', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question: userQuery,
+                        session_id: sessionId
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    displayMessage(`Error: ${data.error}`, false);
+                } else {
+                    const answer = data.response || "Sorry, I couldn't find an answer.";
+                    displayMessage(answer, false);  // This will now render the HTML tags correctly
+                }
+            } catch (error) {
+                displayMessage('Error: Unable to reach the server.', false);
+            }
+
+            // Clear input field
+            userInput.value = '';
+        }
+    });
+
+    // Allow pressing Enter key to send the message
+    userInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            sendBtn.click();
+        }
+    });
+</script>
+
+</body>
+</html>

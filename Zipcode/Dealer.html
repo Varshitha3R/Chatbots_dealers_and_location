@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealer Locator Chatbot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 500px;  /* Fixed width */
+            height: 800px; /* Increased height for taller layout */
+            max-width: 90%;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbox {
+            padding: 30px;
+            flex: 1;
+            overflow-y: auto;
+            border-bottom: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+
+        .chat-message {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 16px;
+            max-width: 85%;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background-color: #e0f7fa;
+            margin-right: 30px;
+        }
+
+        .user-message {
+            background-color: #c8e6c9;
+            align-self: flex-end;
+            margin-left: 30px;
+        }
+
+        .input-area {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+        }
+
+        #user-query {
+            width: 75%;
+            padding: 18px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 18px 30px;
+            border-radius: 10px;
+            border: 1px solid #ca1c1c;
+            background-color: #90b629;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        .typing-indicator {
+            font-size: 16px;
+            color: #888;
+            margin-top: 15px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chatbox" class="chatbox">
+            <div class="chat-message bot-message">
+                <p>Hello! How can I assist you today?</p>
+            </div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="user-query" placeholder="Type your query here..." />
+            <button onclick="sendQuery()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Add an event listener for the Enter key press
+        document.getElementById("user-query").addEventListener("keydown", function (event) {
+            // Check if the pressed key is the Enter key (keyCode 13 or "Enter" string)
+            if (event.key === "Enter") {
+                sendQuery();  // Call sendQuery function when Enter is pressed
+            }
+        });
+
+        function sendQuery() {
+            const query = document.getElementById("user-query").value.trim();
+            if (!query) return;
+
+            // Append user's message to the chatbox
+            appendMessage(query, "user");
+
+            // Append "Bot is typing..." message to the chatbox inside
+            const typingMessage = document.createElement("div");
+            typingMessage.classList.add("chat-message", "bot-message");
+            typingMessage.innerHTML = "<p>Bot is typing...</p>";
+            document.getElementById("chatbox").appendChild(typingMessage);
+
+            // Scroll to the bottom of the chatbox
+            document.getElementById("chatbox").scrollTop = document.getElementById("chatbox").scrollHeight;
+
+            // Call the Flask backend with the user query (no session ID needed)
+            fetch(`http://localhost:5000/ask?query=${encodeURIComponent(query)}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Remove "Bot is typing..." message once the response is received
+                typingMessage.remove();
+
+                // Append bot's response to the chatbox
+                appendMessage(data.response, "bot");
+
+                // Clear the input field
+                document.getElementById("user-query").value = "";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                typingMessage.remove(); // Remove typing indicator on error
+            });
+        }
+
+        function appendMessage(message, sender) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("chat-message", sender + "-message");
+            messageDiv.innerHTML = `<p>${message}</p>`;
+            document.getElementById("chatbox").appendChild(messageDiv);
+
+            // Scroll to the bottom of the chatbox
+            document.getElementById("chatbox").scrollTop = document.getElementById("chatbox").scrollHeight;
+        }
+    </script>
+</body>
+</html>

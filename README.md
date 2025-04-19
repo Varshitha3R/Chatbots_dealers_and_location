@@ -21,15 +21,17 @@ An intelligent Flask-based web application that helps users retrieve relevant lo
 ## 📂 Project Structure
 
 ```
-zipcode/
-│
-├── app.py               # Flask backend
-├── location.html        # Frontend (can be extended)
-├── loc_emb.csv          # Location content + precomputed embeddings
 ├── langraph/            # LangGraph folder for chatbot memory and session management
 │   ├── memory.py        # LangGraph memory handling
 │   ├── session.py       # Session management and context handling
-│   └── __init__.py      # Initializes LangGraph modules
+│   └── __init__.py  
+│
+├── dealer.py
+├── dealer.html 
+├── location.py          # Flask backend
+├── location.html        # Frontend (can be extended)
+├── loc_emb.csv          # Location content + precomputed embeddings
+    # Initializes LangGraph modules
 ├── .env                 # Environment variables (e.g., OpenAI key)
 ├── requirements.txt     # Python dependencies
 └── README.md            # Project documentation

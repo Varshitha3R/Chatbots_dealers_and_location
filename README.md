@@ -148,8 +148,8 @@ LangGraph handles memory through the following files:
 
 ## 🙌 Contact
 
-**Author:** Your Name  
-📧 your.email@example.com  
+**Author:**Varshitha R 
+📧 Varshitharavi315@gmail.com
 🔗 [LinkedIn][[(https://www.linkedin.com/in/your-profile)(https://www.linkedin.com/in/varshi](https://www.linkedin.com/in/varshithar31/)thar31/)
 
 ---

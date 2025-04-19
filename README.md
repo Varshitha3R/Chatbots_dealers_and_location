@@ -1,6 +1,4 @@
-Here's how you can modify the `README.md` to include the details about the added chatbot memory and session management, along with the `session_id` in your Flask app using LangGraph:
 
-```markdown
 # 📍 ZipCode Location Q&A Assistant with Chatbot Memory
 
 An intelligent Flask-based web application that helps users retrieve relevant location-based information using semantic search powered by **OpenAI embeddings**, **LangChain**, and **LangGraph**. This application maintains session memory, allowing it to remember past interactions across different queries, providing a more personalized and context-aware experience.

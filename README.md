@@ -1,6 +1,3 @@
-Got it! Here’s an updated `README.md` structure considering the `langraph` folder where all the related files (including the memory and session management) are placed:
-
-
 # 📍 ZipCode Location Q&A Assistant with Chatbot Memory
 
 An intelligent Flask-based web application that helps users retrieve relevant location-based information using semantic search powered by **OpenAI embeddings**, **LangChain**, and **LangGraph**. This application maintains session memory, allowing it to remember past interactions across different queries, providing a more personalized and context-aware experience.

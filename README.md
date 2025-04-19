@@ -136,7 +136,7 @@ The chatbot leverages **LangGraph** for **session memory**. Each user query is a
 ## 🙌 Contact
 
 **Author:** Varshitha R
-📧 Varshitharavi315@gmail.com
+📧 varshitharavi315@gmail.com
 🔗 [[LinkedIn](https://www.linkedin.com/in/your-profile)  ](https://www.linkedin.com/in/varshithar31/)
 
 

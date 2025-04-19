@@ -1,3 +1,5 @@
+Got it! Here’s an updated `README.md` structure considering the `langraph` folder where all the related files (including the memory and session management) are placed:
+
 
 # 📍 ZipCode Location Q&A Assistant with Chatbot Memory
 
@@ -27,7 +29,10 @@ zipcode/
 ├── app.py               # Flask backend
 ├── location.html        # Frontend (can be extended)
 ├── loc_emb.csv          # Location content + precomputed embeddings
-├── langraph.py          # Chatbot memory and session management (LangGraph)
+├── langraph/            # LangGraph folder for chatbot memory and session management
+│   ├── memory.py        # LangGraph memory handling
+│   ├── session.py       # Session management and context handling
+│   └── __init__.py      # Initializes LangGraph modules
 ├── .env                 # Environment variables (e.g., OpenAI key)
 ├── requirements.txt     # Python dependencies
 └── README.md            # Project documentation
@@ -117,7 +122,11 @@ The chatbot leverages **LangGraph** for **session memory**. Each user query is a
 - Provide context-aware responses across different sessions
 - Personalize interactions by referencing past user behavior
 
-`langraph.py` is responsible for managing the memory and ensuring context is maintained.
+LangGraph handles memory through the following files:
+
+- **`memory.py`**: Manages chatbot's memory across sessions, storing relevant information.
+- **`session.py`**: Handles session-specific data, including session ID creation and retrieval.
+- **`__init__.py`**: Initializes LangGraph's memory management modules.
 
 ---
 
@@ -131,15 +140,18 @@ The chatbot leverages **LangGraph** for **session memory**. Each user query is a
 
 ---
 
+## ⚠️ License
+
+> **Not licensed under MIT.**  
+> This code is not open-source licensed. Please contact the author for any usage or distribution rights.
+
 ---
 
 ## 🙌 Contact
 
-**Author:** Varshitha R
-📧 varshitharavi315@gmail.com
-🔗 [[LinkedIn](https://www.linkedin.com/in/your-profile)  ](https://www.linkedin.com/in/varshithar31/)
-
+**Author:** Your Name  
+📧 your.email@example.com  
+🔗 [LinkedIn][[(https://www.linkedin.com/in/your-profile)(https://www.linkedin.com/in/varshi](https://www.linkedin.com/in/varshithar31/)thar31/)
 
 ---
 ```
-

@@ -39,7 +39,7 @@ app = Flask(__name__)
 class State(TypedDict):
   messages:Annotated[list,add_messages]
 
-# embedding_model = OpenAIEmbeddings(api_key="sk-proj-")
+# embedding_model = OpenAIEmbeddings(api_key=")
 
 import csv
 import numpy as np
